@@ -18,3 +18,8 @@ mv ~/.local /scratch/$USER/local
 ln -s /scratch/$USER/local ~/.local
 ```
 
+```
+python main.py --epochs 120 --patience 75 \
+               --data-root ./data/Planetoid \
+               --log-csv run1.csv
+```
