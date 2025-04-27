@@ -1,5 +1,6 @@
 import torch
 import torch.nn.functional as F
+import threading
 
 def train(model, data, optimizer):
     model.train()
@@ -14,10 +15,25 @@ def train(model, data, optimizer):
 def evaluate(model, data):
     model.eval()
     logits = model(data.x, data.edge_index)
-    accs = []
-    for mask in (data.train_mask, data.val_mask, data.test_mask):
+
+    # Subdivide the three mask-based accuracies into separate tasks
+    masks = [data.train_mask, data.val_mask, data.test_mask]
+    accs = [None] * len(masks)
+
+    def _compute(idx, mask):
         pred = logits[mask].argmax(dim=1)
-        acc = pred.eq(data.y[mask]).sum().item() / mask.sum().item()
-        accs.append(acc)
-    # returns [train_acc, val_acc, test_acc]
+        accs[idx] = pred.eq(data.y[mask]).sum().item() / mask.sum().item()
+
+    # Spawn one thread per mask
+    threads = []
+    for i, mask in enumerate(masks):
+        t = threading.Thread(target=_compute, args=(i, mask))
+        t.start()
+        threads.append(t)
+
+    # Wait for all three to finish
+    for t in threads:
+        t.join()
+
+    # Returns [train_acc, val_acc, test_acc] as before
     return accs
