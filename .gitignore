@@ -12,4 +12,5 @@ Thumbs.db
 .cache/
 *.pkl
 *.pt
-data/
+data/*
+ppnp/data/*

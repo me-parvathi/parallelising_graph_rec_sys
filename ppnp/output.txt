@@ -1,0 +1,46 @@
+
+Output when run without parallelisation on Cora dataset, with all default values as in main.py
+python main.py --dataset Cora --profile --track_memory --track_time
+=== Final Benchmark Summary ===
+Best Validation Accuracy: 0.8200
+Avg Epoch Time: 4.0344 sec
+Peak GPU Memory: 50.86 MB
+Peak CPU Memory: 932.62 MB
+Avg Train Time: 2.0202 sec
+Avg Eval Time: 2.0142 sec
+Peak GPU Memory (Reserved): 62.00 MB
+Peak CPU Memory (Virtual): 17491.68 MB
+Avg Forward Time: 1.4133 sec
+Avg Backward Time: 0.4038 sec
+Avg Optimizer Time: 0.2019 sec
+
+second run
+=== Final Benchmark Summary ===
+Best Validation Accuracy: 0.8120
+Avg Epoch Time: 4.0350 sec
+Peak GPU Memory: 50.86 MB
+Peak CPU Memory: 869.34 MB
+Avg Train Time: 2.0207 sec
+Avg Eval Time: 2.0143 sec
+Peak GPU Memory (Reserved): 62.00 MB
+Peak CPU Memory (Virtual): 17488.86 MB
+Avg Forward Time: 1.4138 sec
+Avg Backward Time: 0.4039 sec
+Avg Optimizer Time: 0.2020 sec
+
+(venv) [pb3071@cuda2 ppnp]$ 
+
+Now going for ddp
+
+=== Final Benchmark Summary ===
+Best Validation Accuracy: 0.8140
+Avg Epoch Time: 4.0346 sec
+Peak GPU Memory: 51.21 MB
+Peak CPU Memory: 1067.99 MB
+Avg Train Time: 2.0203 sec
+Avg Eval Time: 2.0143 sec
+Peak GPU Memory (Reserved): 62.00 MB
+Peak CPU Memory (Virtual): 17988.25 MB
+Avg Forward Time: 1.4135 sec
+Avg Backward Time: 0.4038 sec
+Avg Optimizer Time: 0.2019 sec
