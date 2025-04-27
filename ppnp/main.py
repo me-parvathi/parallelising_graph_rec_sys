@@ -3,6 +3,7 @@ import time
 import csv
 import torch
 import os
+import sys
 import matplotlib.pyplot as plt
 import psutil
 import torch.distributed as dist
@@ -15,6 +16,10 @@ from model import Net
 from engine import train, evaluate
 # from profiling import profile_func  # Commented out as this functionality is now in main.py
 # from metric import Benchmark  # Commented out as Benchmark class is no longer available
+
+# === NB-BSP BEGIN ===
+from parallelisation import run_nb_bsp
+# === NB-BSP END ===
 
 # Only apply profiling decorator if benchmarking is enabled
 def get_train_func(enable_benchmark):
@@ -232,6 +237,11 @@ if __name__ == "__main__":
     p.add_argument("--world_size", type=int, default=torch.cuda.device_count(),
                    help="Number of GPUs to use for DDP")
     
+    # === NB-BSP BEGIN ===
+    p.add_argument("--parallel", type=str, default="none", choices=["none", "nb_bsp"],
+                   help="Parallel execution mode: none or nb_bsp")
+    # === NB-BSP END ===
+    
     # Benchmarking arguments
     p.add_argument("--profile", action="store_true", help="Enable detailed profiling")
     p.add_argument("--benchmark_interval", type=int, default=1,
@@ -246,6 +256,12 @@ if __name__ == "__main__":
                    help="Number of warmup epochs before starting detailed benchmarking")
     
     args = p.parse_args()
+
+    # === NB-BSP BEGIN ===
+    if args.parallel == "nb_bsp":
+        mp.spawn(run_nb_bsp, args=(args.world_size, args), nprocs=args.world_size)
+        sys.exit(0)
+    # === NB-BSP END ===
 
     if args.ddp:
         if not torch.cuda.is_available():
