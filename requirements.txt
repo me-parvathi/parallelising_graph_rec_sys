@@ -6,3 +6,4 @@ tqdm==4.66.2
 requests==2.31.0
 psutil
 memory_profiler
+pymetis

@@ -3,16 +3,27 @@ import torch.nn.functional as F
 import threading
 
 def train(model, data, optimizer):
+    """Train the model for one epoch."""
     model.train()
     optimizer.zero_grad()
+    
+    # Forward pass
     out = model(data.x, data.edge_index)
+    
+    # Compute loss
     loss = F.cross_entropy(out[data.train_mask], data.y[data.train_mask])
+    
+    # Backward pass
     loss.backward()
+    
+    # Update parameters
     optimizer.step()
+    
     return loss.item()
 
 @torch.no_grad()
 def evaluate(model, data):
+    """Evaluate the model on train, validation, and test sets."""
     model.eval()
     logits = model(data.x, data.edge_index)
 

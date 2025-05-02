@@ -9,6 +9,7 @@ from typing import Dict, Any
 from data import load_data
 from engine import train, evaluate
 import os
+from partitioning import partition_graph, get_partition_indices, calculate_partition_metrics
 
 def init_process_group(world_size, rank):
     dist.init_process_group(
@@ -18,12 +19,35 @@ def init_process_group(world_size, rank):
         rank=rank,
     )
 
-def partition_indices(num_nodes, world_size):
-    # simple block partition
-    sizes = [(num_nodes + i) // world_size for i in range(world_size)]
-    offsets = [sum(sizes[:i]) for i in range(world_size)]
-    return [torch.arange(offsets[i], offsets[i] + sizes[i])
-            for i in range(world_size)]
+def partition_indices(num_nodes, edge_index, world_size):
+    """
+    Partition the graph using METIS to minimize edge cuts.
+    
+    Args:
+        num_nodes: Number of nodes in the graph
+        edge_index: [2, E] tensor containing edge indices
+        world_size: Number of partitions to create
+        
+    Returns:
+        List of tensors containing node indices for each partition
+    """
+    # Get partition assignments using METIS
+    partition, edge_cuts = partition_graph(edge_index, num_nodes, world_size)
+    
+    # Convert partition assignments to node indices and move to the same device as edge_index
+    device = edge_index.device
+    partition_indices = get_partition_indices(partition, world_size, device)
+    
+    # Calculate and print partitioning metrics
+    metrics = calculate_partition_metrics(edge_index, partition, world_size)
+    if dist.get_rank() == 0:
+        print(f"Partitioning metrics:")
+        print(f"Edge cuts: {metrics['edge_cuts']}")
+        print(f"Partition sizes: {metrics['partition_sizes']}")
+        print(f"Partition imbalance: {metrics['partition_imbalance']}")
+        print(f"Communication volume matrix:\n{metrics['communication_volume']}")
+    
+    return partition_indices
 
 def bsp_appnp_propagation(x0, edge_index, alpha, K, world_size, rank):
     """
@@ -36,7 +60,7 @@ def bsp_appnp_propagation(x0, edge_index, alpha, K, world_size, rank):
     
     N, num_features = x0.size()  # Changed F to num_features to avoid conflict
     # Which nodes this rank owns
-    parts = partition_indices(N, world_size)
+    parts = partition_indices(N, edge_index, world_size)
     local_idx = parts[rank]
 
     # Precompute normalization
