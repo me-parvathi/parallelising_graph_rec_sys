@@ -12,6 +12,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os
 from typing import Dict, List, Tuple, Optional
+import re
 
 # NOT USED: This functionality is now covered by the main profiling system in main.py
 """
@@ -255,11 +256,12 @@ def find_best_val_epoch(data: List[Dict]) -> Dict:
 
 def find_world_size(parallel_log_file: str) -> int:
     """Extract world size from the log file name."""
-    # Try to find world size in filename (e.g., appnp_training_log_world2.csv)
     try:
         filename = os.path.basename(parallel_log_file)
-        if "world" in filename:
-            return int(filename.split("world")[1].split(".")[0])
+        # Look for pattern like "world2" in the filename
+        match = re.search(r'world(\d+)', filename)
+        if match:
+            return int(match.group(1))
     except:
         pass
     

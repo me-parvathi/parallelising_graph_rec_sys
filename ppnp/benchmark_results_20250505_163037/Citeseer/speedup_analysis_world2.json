@@ -1,0 +1,59 @@
+{
+    "speedups": {
+        "epoch_time": 1.1673365076046904,
+        "train_time": 1.3585489917141012,
+        "eval_time": 0.9081136596004679,
+        "forward_time": 1.3585489917141005,
+        "backward_time": 1.3585489917141016,
+        "optimizer_time": 1.3585489917141016
+    },
+    "accuracy_diff": {
+        "final_train_acc": -0.3916666547457377,
+        "final_val_acc": -0.44600000143051144,
+        "final_test_acc": -0.30800000548362727
+    },
+    "memory_ratio": {
+        "gpu_mem": 1.007543934571532,
+        "cpu_mem": 1.2193452706883883
+    },
+    "convergence": {
+        "epochs_to_best_parallel": 37.0,
+        "epochs_to_best_sequential": 26.0,
+        "convergence_speedup": 0.7027027027027027
+    },
+    "parallel_avg_metrics": {
+        "epoch": 28.0,
+        "loss": 491119.61041666666,
+        "train_acc": 0.45518518222702875,
+        "val_acc": 0.2933777772718006,
+        "test_acc": 0.3546222229798635,
+        "epoch_time": 0.02846212651994493,
+        "gpu_mem": 305.27646484375,
+        "cpu_mem": 1203.3111979166667,
+        "train_time": 0.01753424538506402,
+        "eval_time": 0.0103536499871148,
+        "gpu_mem_peak": 318.0888888888889,
+        "cpu_mem_peak": 18260.030555555557,
+        "forward_time": 0.012273971769544817,
+        "backward_time": 0.003506849077012803,
+        "optimizer_time": 0.0017534245385064015
+    },
+    "sequential_avg_metrics": {
+        "epoch": 28.0,
+        "loss": 1.2175551149580213,
+        "train_acc": 0.9294444444444446,
+        "val_acc": 0.6963555555555554,
+        "test_acc": 0.6874666666666667,
+        "epoch_time": 0.03322487937079536,
+        "gpu_mem": 302.99072265625,
+        "cpu_mem": 986.8502604166666,
+        "train_time": 0.023821131388346354,
+        "eval_time": 0.009402290980021159,
+        "gpu_mem_peak": 316.0,
+        "cpu_mem_peak": 17762.407552083332,
+        "forward_time": 0.016674791971842445,
+        "backward_time": 0.004764226277669271,
+        "optimizer_time": 0.0023821131388346356
+    },
+    "parallel_world_size": 2
+}

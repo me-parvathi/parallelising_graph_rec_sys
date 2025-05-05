@@ -84,7 +84,7 @@ def load_data(name: str, root: str = "data", world_size=1, rank=0, distributed=F
         rank (int, optional): Process rank for distributed training
         distributed (bool, optional): Whether to use distributed samplers
     """
-    name = name.capitalize()
+    # name = name.capitalize() # Removed this line
     
     if name in ['Cora', 'Citeseer', 'PubMed']:
         transform = NormalizeFeatures()

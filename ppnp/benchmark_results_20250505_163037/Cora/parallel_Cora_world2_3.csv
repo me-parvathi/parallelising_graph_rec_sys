@@ -1,0 +1,1 @@
+epoch,loss,train_acc,val_acc,test_acc,epoch_time,gpu_mem,cpu_mem,train_time,eval_time,gpu_mem_peak,cpu_mem_peak,forward_time,backward_time,optimizer_time
