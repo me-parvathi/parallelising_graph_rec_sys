@@ -65,3 +65,10 @@ Per-epoch metrics
 Final benchmark summary
 Memory usage statistics
 Timing statistics
+
+
+
+To document speedups, you can now:
+Run ./run_comparison.sh for a quick comparison
+Run python benchmark_parallel.py for comprehensive benchmarks
+Generate detailed reports with python benchmark_parallel.py --report

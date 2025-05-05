@@ -44,3 +44,35 @@ Peak CPU Memory (Virtual): 17988.25 MB
 Avg Forward Time: 1.4135 sec
 Avg Backward Time: 0.4038 sec
 Avg Optimizer Time: 0.2019 sec
+
+############################
+
+python main.py --dataset Cora --parallel nb_bsp --world_size 2 --epochs 200 --profile --track_memory --track_time
+=== Final Benchmark Summary ===
+Avg Epoch Time: 0.0145 sec
+Peak GPU Memory: 48.67 MB
+Peak CPU Memory: 1046.81 MB
+Avg Train Time: 0.0087 sec
+Avg Eval Time: 0.0052 sec
+Peak GPU Memory (Reserved): 60.00 MB
+Peak CPU Memory (Virtual): 17992.23 MB
+Avg Forward Time: 0.0053 sec
+Avg Backward Time: 0.0015 sec
+Avg Optimizer Time: 0.0008 sec
+
+
+#####################
+
+python main.py --dataset Cora --epochs 10 --profile --track_memory --track_time
+=== Final Benchmark Summary ===
+Best Validation Accuracy: 0.8080
+Avg Epoch Time: 0.0121 sec
+Peak GPU Memory: 50.86 MB
+Peak CPU Memory: 868.07 MB
+Avg Train Time: 0.0080 sec
+Avg Eval Time: 0.0041 sec
+Peak GPU Memory (Reserved): 62.00 MB
+Peak CPU Memory (Virtual): 17489.29 MB
+Avg Forward Time: 0.0049 sec
+Avg Backward Time: 0.0014 sec
+Avg Optimizer Time: 0.0007 sec

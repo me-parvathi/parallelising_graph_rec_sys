@@ -42,9 +42,48 @@ def main(rank, world_size, args):
         torch.cuda.set_device(device)
     else:
         device = torch.device(args.device)
+    
+    # Print device information in debug mode
+    if args.debug:
+        print(f"Rank {rank}: Using device {device}")
+        if torch.cuda.is_available():
+            print(f"Rank {rank}: CUDA memory allocated: {torch.cuda.memory_allocated(device) / 1024**2:.2f} MB")
+            print(f"Rank {rank}: CUDA memory reserved: {torch.cuda.memory_reserved(device) / 1024**2:.2f} MB")
 
-    dataset, data = load_data(args.dataset, root=args.root)
-    data = data.to(device)
+    # Load data and loader if Reddit
+    if args.dataset.lower() == 'reddit':
+        # Set distributed=True if using DDP or NB-BSP
+        is_distributed = args.ddp or args.parallel == "nb_bsp"
+        dataset, data, train_loader, val_loader, test_loader = load_data(
+            args.dataset, 
+            root=args.root,
+            world_size=world_size,
+            rank=rank,
+            distributed=is_distributed
+        )
+        # Ensure data is on the correct device and has correct types
+        data = data.to(device)
+        # Convert node features to float32 for better numerical stability
+        data.x = data.x.to(torch.float32)
+        
+        if args.debug:
+            print(f"Rank {rank}: Data moved to {device}")
+            print(f"Rank {rank}: Data.x device: {data.x.device}, Data.edge_index device: {data.edge_index.device}")
+            print(f"Rank {rank}: Data.x dtype: {data.x.dtype}, Data.y dtype: {data.y.dtype}")
+    else:
+        dataset, data = load_data(args.dataset, root=args.root)
+        # Ensure data is on the correct device and has correct types
+        data = data.to(device)
+        # Convert node features to float32 for better numerical stability
+        data.x = data.x.to(torch.float32)
+        
+        if args.debug:
+            print(f"Rank {rank}: Data moved to {device}")
+            print(f"Rank {rank}: Data.x device: {data.x.device}, Data.edge_index device: {data.edge_index.device}")
+            print(f"Rank {rank}: Data.x dtype: {data.x.dtype}, Data.y dtype: {data.y.dtype}")
+        train_loader = None
+        val_loader = None
+        test_loader = None
 
     # model + optimizer
     model = Net(
@@ -58,6 +97,11 @@ def main(rank, world_size, args):
         world_size=world_size,
         rank=rank,
     ).to(device)
+    
+    if args.debug:
+        print(f"Rank {rank}: Model moved to {device}")
+        for name, param in model.named_parameters():
+            print(f"Rank {rank}: Parameter {name} on device {param.device}")
 
     if args.ddp:
         model = DDP(model, device_ids=[rank])
@@ -65,10 +109,17 @@ def main(rank, world_size, args):
     # Get the actual model for parameter access
     model_for_params = model.module if args.ddp else model
 
+    # Scale learning rate based on world size if in parallel mode
+    adjusted_lr = args.lr
+    if args.parallel == "nb_bsp" or args.ddp:
+        adjusted_lr = args.lr / (world_size ** 0.5)  # Scale by sqrt(world_size)
+        if args.debug and rank == 0:
+            print(f"Adjusted learning rate for parallel: {adjusted_lr:.6f} (original: {args.lr:.6f})")
+
     optimizer = torch.optim.Adam([
         {"params": model_for_params.lin1.parameters(), "weight_decay": args.weight_decay},
         {"params": model_for_params.lin2.parameters(), "weight_decay": 0.0},
-    ], lr=args.lr)
+    ], lr=adjusted_lr)
 
     # prepare CSV logging only if benchmarking is enabled
     if args.profile:
@@ -106,12 +157,18 @@ def main(rank, world_size, args):
         
         # Train with or without profiling
         train_start = time.time()
-        loss = train_func(model, data, optimizer)
+        if train_loader is not None:
+            loss = train_func(model, data, optimizer, train_loader)
+        else:
+            loss = train_func(model, data, optimizer)
         train_time = time.time() - train_start
         
         # Evaluate with or without profiling
         eval_start = time.time()
-        tr, val, te = evaluate_func(model, data)
+        if val_loader is not None and test_loader is not None:
+            tr, val, te = evaluate_func(model, data, val_loader, test_loader)
+        else:
+            tr, val, te = evaluate_func(model, data)
         eval_time = time.time() - eval_start
         
         epoch_time = time.time() - start
@@ -252,6 +309,7 @@ if __name__ == "__main__":
                    help="Output file for detailed benchmark results")
     p.add_argument("--warmup_epochs", type=int, default=1,
                    help="Number of warmup epochs before starting detailed benchmarking")
+    p.add_argument("--debug", action="store_true", help="Enable debug mode with more verbose output")
     
     args = p.parse_args()
 
