@@ -1,0 +1,36 @@
+{
+  "dataset": "Cora",
+  "epochs": 50,
+  "repeat": 3,
+  "sequential": [
+    {
+      "run": 1,
+      "log_file": "benchmark_results_20250505_163037/Cora/sequential_Cora_1.csv",
+      "total_time": 6.496431112289429
+    },
+    {
+      "run": 2,
+      "log_file": "benchmark_results_20250505_163037/Cora/sequential_Cora_2.csv",
+      "total_time": 6.429556131362915
+    },
+    {
+      "run": 3,
+      "log_file": "benchmark_results_20250505_163037/Cora/sequential_Cora_3.csv",
+      "total_time": 6.4207048416137695
+    }
+  ],
+  "parallel": {
+    "2": [
+      {
+        "run": 1,
+        "log_file": "benchmark_results_20250505_163037/Cora/parallel_Cora_world2_1.csv",
+        "total_time": 11.194627285003662
+      },
+      {
+        "run": 2,
+        "log_file": "benchmark_results_20250505_163037/Cora/parallel_Cora_world2_2.csv",
+        "total_time": 12.183868408203125
+      }
+    ]
+  }
+}

@@ -1,0 +1,59 @@
+{
+    "speedups": {
+        "epoch_time": 0.9372136837296412,
+        "train_time": 1.0396432050544537,
+        "eval_time": 0.8034358815408628,
+        "forward_time": 1.0396432050544535,
+        "backward_time": 1.0396432050544537,
+        "optimizer_time": 1.0396432050544537
+    },
+    "accuracy_diff": {
+        "final_train_acc": -0.11666667064030967,
+        "final_val_acc": -0.1560000128746033,
+        "final_test_acc": -0.14899999046325685
+    },
+    "memory_ratio": {
+        "gpu_mem": 1.059866632266259,
+        "cpu_mem": 1.2555100880984689
+    },
+    "convergence": {
+        "epochs_to_best_parallel": 23.0,
+        "epochs_to_best_sequential": 34.0,
+        "convergence_speedup": 1.4782608695652173
+    },
+    "parallel_avg_metrics": {
+        "epoch": 28.0,
+        "loss": 159247.36805555556,
+        "train_acc": 0.7974074019326104,
+        "val_acc": 0.5761777791712019,
+        "test_acc": 0.5865111112594604,
+        "epoch_time": 0.032037960158454046,
+        "gpu_mem": 260.75927734375,
+        "cpu_mem": 1177.45703125,
+        "train_time": 0.01997660001118978,
+        "eval_time": 0.011521032121446397,
+        "gpu_mem_peak": 292.44444444444446,
+        "cpu_mem_peak": 18196.1328125,
+        "forward_time": 0.013983620007832844,
+        "backward_time": 0.003995320002237956,
+        "optimizer_time": 0.001997660001118978
+    },
+    "sequential_avg_metrics": {
+        "epoch": 28.0,
+        "loss": 0.8144724117385016,
+        "train_acc": 0.8892592592592587,
+        "val_acc": 0.7327555555555556,
+        "test_acc": 0.718622222222222,
+        "epoch_time": 0.030026414659288195,
+        "gpu_mem": 246.0302734375,
+        "cpu_mem": 937.8315972222222,
+        "train_time": 0.020768536461724177,
+        "eval_time": 0.009256410598754882,
+        "gpu_mem_peak": 276.0,
+        "cpu_mem_peak": 17660.419270833332,
+        "forward_time": 0.01453797552320692,
+        "backward_time": 0.004153707292344835,
+        "optimizer_time": 0.0020768536461724177
+    },
+    "parallel_world_size": 2
+}

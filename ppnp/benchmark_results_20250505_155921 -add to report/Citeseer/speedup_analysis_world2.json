@@ -1,0 +1,59 @@
+{
+    "speedups": {
+        "epoch_time": 0.7332708585569938,
+        "train_time": 0.8777156941144076,
+        "eval_time": 0.5461046220142918,
+        "forward_time": 0.8777156941144075,
+        "backward_time": 0.8777156941144078,
+        "optimizer_time": 0.8777156941144078
+    },
+    "accuracy_diff": {
+        "final_train_acc": -0.32500001589457195,
+        "final_val_acc": -0.37800001263618466,
+        "final_test_acc": -0.37400001049041753
+    },
+    "memory_ratio": {
+        "gpu_mem": 1.0025172233189639,
+        "cpu_mem": 1.2263230179913855
+    },
+    "convergence": {
+        "epochs_to_best_parallel": 16.0,
+        "epochs_to_best_sequential": 39.0,
+        "convergence_speedup": 2.4375
+    },
+    "parallel_avg_metrics": {
+        "epoch": 28.0,
+        "loss": 1.4449327680799695,
+        "train_acc": 0.6053703665733338,
+        "val_acc": 0.3382666680547926,
+        "test_acc": 0.31135555571979945,
+        "epoch_time": 0.040780030356513126,
+        "gpu_mem": 303.75341796875,
+        "cpu_mem": 1212.62109375,
+        "train_time": 0.023994157049391004,
+        "eval_time": 0.016189808315700955,
+        "gpu_mem_peak": 316.0,
+        "cpu_mem_peak": 18271.8515625,
+        "forward_time": 0.0167959099345737,
+        "backward_time": 0.004798831409878201,
+        "optimizer_time": 0.0023994157049391004
+    },
+    "sequential_avg_metrics": {
+        "epoch": 28.0,
+        "loss": 1.220163467195299,
+        "train_acc": 0.9301851851851853,
+        "val_acc": 0.6757777777777778,
+        "test_acc": 0.6698444444444446,
+        "epoch_time": 0.02990280787150065,
+        "gpu_mem": 302.99072265625,
+        "cpu_mem": 988.8268229166666,
+        "train_time": 0.02106004820929633,
+        "eval_time": 0.008841329150729708,
+        "gpu_mem_peak": 316.0,
+        "cpu_mem_peak": 17762.884114583332,
+        "forward_time": 0.014742033746507429,
+        "backward_time": 0.004212009641859267,
+        "optimizer_time": 0.0021060048209296336
+    },
+    "parallel_world_size": 2
+}

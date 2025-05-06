@@ -1,0 +1,41 @@
+{
+  "dataset": "PubMed",
+  "epochs": 50,
+  "repeat": 3,
+  "sequential": [
+    {
+      "run": 1,
+      "log_file": "benchmark_results_20250505_155921/PubMed/sequential_PubMed_1.csv",
+      "total_time": 6.468355417251587
+    },
+    {
+      "run": 2,
+      "log_file": "benchmark_results_20250505_155921/PubMed/sequential_PubMed_2.csv",
+      "total_time": 6.501049757003784
+    },
+    {
+      "run": 3,
+      "log_file": "benchmark_results_20250505_155921/PubMed/sequential_PubMed_3.csv",
+      "total_time": 6.502230882644653
+    }
+  ],
+  "parallel": {
+    "2": [
+      {
+        "run": 1,
+        "log_file": "benchmark_results_20250505_155921/PubMed/parallel_PubMed_world2_1.csv",
+        "total_time": 13.462032556533813
+      },
+      {
+        "run": 2,
+        "log_file": "benchmark_results_20250505_155921/PubMed/parallel_PubMed_world2_2.csv",
+        "total_time": 13.63787317276001
+      },
+      {
+        "run": 3,
+        "log_file": "benchmark_results_20250505_155921/PubMed/parallel_PubMed_world2_3.csv",
+        "total_time": 13.941197872161865
+      }
+    ]
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "dataset": "Citeseer",
+  "epochs": 50,
+  "repeat": 3,
+  "sequential": [
+    {
+      "run": 1,
+      "log_file": "benchmark_results_20250505_163037/Citeseer/sequential_Citeseer_1.csv",
+      "total_time": 6.6944286823272705
+    },
+    {
+      "run": 2,
+      "log_file": "benchmark_results_20250505_163037/Citeseer/sequential_Citeseer_2.csv",
+      "total_time": 6.729860305786133
+    },
+    {
+      "run": 3,
+      "log_file": "benchmark_results_20250505_163037/Citeseer/sequential_Citeseer_3.csv",
+      "total_time": 6.631346940994263
+    }
+  ],
+  "parallel": {
+    "2": [
+      {
+        "run": 1,
+        "log_file": "benchmark_results_20250505_163037/Citeseer/parallel_Citeseer_world2_1.csv",
+        "total_time": 12.424971342086792
+      },
+      {
+        "run": 2,
+        "log_file": "benchmark_results_20250505_163037/Citeseer/parallel_Citeseer_world2_2.csv",
+        "total_time": 12.270266771316528
+      },
+      {
+        "run": 3,
+        "log_file": "benchmark_results_20250505_163037/Citeseer/parallel_Citeseer_world2_3.csv",
+        "total_time": 12.390812873840332
+      }
+    ]
+  }
+}
